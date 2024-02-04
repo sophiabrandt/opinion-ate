@@ -1,5 +1,7 @@
+import RestaurantScreen from './components/RestaurantScreen';
+
 const App = () => {
-  return <p>Hello, world!</p>;
+  return <RestaurantScreen />;
 };
 
 export default App;
