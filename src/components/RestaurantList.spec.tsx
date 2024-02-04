@@ -4,8 +4,23 @@ import {Restaurant} from './RestaurantScreen';
 
 describe('RestaurantList', () => {
   it('loads a list of restaurants on first render', () => {
+    const {loadRestaurants} = setup();
+
+    expect(loadRestaurants).toHaveBeenCalled();
+  });
+
+  it('displays the restaurants', () => {
+    setup();
+
+    expect(screen.getByText('Sushi Place')).toBeInTheDocument();
+  });
+
+  function setup() {
+    const restaurants = [
+      {id: 1, name: 'Sushi Place'},
+      {id: 2, name: 'Pizza Place'},
+    ];
     const loadRestaurants = vi.fn().mockName('loadRestaurants');
-    const restaurants: Restaurant[] = [];
 
     render(
       <RestaurantList
@@ -14,18 +29,6 @@ describe('RestaurantList', () => {
       />,
     );
 
-    expect(loadRestaurants).toHaveBeenCalled();
-  });
-
-  it('displays the restaurants', () => {
-    const noop = () => {};
-    const restaurants = [
-      {id: 1, name: 'Sushi Place'},
-      {id: 2, name: 'Pizza Place'},
-    ];
-
-    render(<RestaurantList loadRestaurants={noop} restaurants={restaurants} />);
-
-    expect(screen.getByText('Sushi Place')).toBeInTheDocument();
-  });
+    return {loadRestaurants};
+  }
 });
