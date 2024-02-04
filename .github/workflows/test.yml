@@ -1,0 +1,21 @@
+name: Test
+on: [push]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/bun@v1
+        with:
+          bun-version: latest
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+      - name: Unit Tests
+        run: bun run:test
+      - name: E2E Tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: bun start
+          wait-on: 'http://localhost:3000'
