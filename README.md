@@ -1,27 +1,61 @@
-# vite-template-redux
+# opinion-ate
 
-Uses [Vite](https://vitejs.dev/), [Vitest](https://vitest.dev/), and [React Testing Library](https://github.com/testing-library/react-testing-library) to create a modern [React](https://react.dev/) app compatible with [Create React App](https://create-react-app.dev/)
+An app for tracking reviews of dishes at different restaurants.
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+### Prerequisites
+
+- [bun](https://bun.sh)
+- [Node.js](https://nodejs.org)
+
+### Installing
+
+Install dependencies:
 
 ```sh
-npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
+bun install
 ```
 
-## Goals
+## Running the tests
 
-- Easy migration from Create React App or Vite
-- As beginner friendly as Create React App
-- Optimized performance compared to Create React App
-- Customizable without ejecting
+### Unit Tests
 
-## Scripts
+This project uses [vitest](vitest.dev) and [React Testing Library](https://testing-library.com/).
 
-- `dev`/`start` - start dev server and open browser
-- `build` - build for production
-- `preview` - locally preview production build
-- `test` - launch test runner
+```sh
+bun test:run
+```
 
-## Inspiration
+Or use watch mode:
 
-- [Create React App](https://github.com/facebook/create-react-app/tree/main/packages/cra-template)
-- [Vite](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react)
-- [Vitest](https://github.com/vitest-dev/vitest/tree/main/examples/react-testing-lib)
+```sh
+bun test:watch
+```
+
+### Break down into end to end tests
+
+This project uses [Cypress](https://www.cypress.io/) for end-to-end-testing.
+
+```sh
+bun cy:run
+```
+
+## Deployment
+
+tbd
+
+## Built With
+
+- [React](https://reactjs.org)
+- [Vite](https://vitejs.dev)
+
+## Contributing
+
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Acknowledgments
+
+- Hat tip to [CodingItWrong](https://github.com/CodingItWrongDemo/opinion-ate)
