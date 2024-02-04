@@ -11,7 +11,7 @@ jobs:
         with:
           bun-version: latest
       - name: Install Dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
       - name: Unit Tests
         run: bun test:run
       - name: E2E Tests
