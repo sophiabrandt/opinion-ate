@@ -13,7 +13,7 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
       - name: Unit Tests
-        run: bun run:test
+        run: bun test:run
       - name: E2E Tests
         uses: cypress-io/github-action@v6
         with:
