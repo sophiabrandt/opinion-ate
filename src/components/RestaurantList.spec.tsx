@@ -1,6 +1,5 @@
 import {render, screen} from '@testing-library/react';
-import RestaurantList from './RestaurantList';
-import {Restaurant} from './RestaurantScreen';
+import {RestaurantList} from './RestaurantList';
 
 describe('RestaurantList', () => {
   it('loads a list of restaurants on first render', () => {
