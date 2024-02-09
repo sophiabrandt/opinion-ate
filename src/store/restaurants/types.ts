@@ -1,4 +1,8 @@
+export interface Api {
+  loadRestaurants: () => Promise<Restaurant[]>;
+}
+
 export interface Restaurant {
-  id: string;
+  id: number;
   name: string;
 }

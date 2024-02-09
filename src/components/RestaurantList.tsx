@@ -14,17 +14,14 @@ export function RestaurantList({
   restaurants,
 }: RestaurantListProps) {
   useEffect(() => {
-    console.log(restaurants);
     loadRestaurants();
-  }, []);
+  }, [loadRestaurants]);
 
   return (
     <ul>
-      {JSON.stringify(restaurants, null, 2)}
-      {restaurants &&
-        restaurants.map(restaurant => (
-          <li key={restaurant.id}>{restaurant.name}</li>
-        ))}
+      {restaurants.map(restaurant => (
+        <li key={restaurant.id}>{restaurant.name}</li>
+      ))}
     </ul>
   );
 }
