@@ -1,7 +1,8 @@
 import {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {Restaurant, restaurantsSlice} from '../store';
-import type {RootState} from '../store';
+import {Restaurant} from '../store/restaurants/types';
+import {RootState} from '../store';
+import {loadRestaurants} from '../store/restaurants/actions';
 
 interface RestaurantListProps {
   loadRestaurants: () => void;
@@ -29,7 +30,7 @@ export function RestaurantList({
 }
 
 const mapDispatchToProps = {
-  loadRestaurants: restaurantsSlice.actions.loadRestaurants,
+  loadRestaurants,
 };
 
 const mapStateToProps = (state: RootState) => ({
