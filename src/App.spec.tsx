@@ -2,6 +2,7 @@ import {render, screen} from '@testing-library/react';
 import App from './App';
 import {configureStore} from '@reduxjs/toolkit';
 import {Provider} from 'react-redux';
+import {ReactNode} from 'react';
 
 describe('App', () => {
   it('renders', () => {
@@ -17,7 +18,7 @@ describe('App', () => {
 
   function setup() {
     const store = configureStore({reducer: () => ({state: null})});
-    const renderWithRedux = (component: React.ReactNode) => {
+    const renderWithRedux = (component: ReactNode) => {
       return {...render(<Provider store={store}>{component}</Provider>)};
     };
     return {renderWithRedux};
