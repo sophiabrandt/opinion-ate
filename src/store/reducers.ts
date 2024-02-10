@@ -1,5 +1,4 @@
-import {combineReducers} from 'redux';
-
 import restaurants from './restaurants/reducers';
+import {combineSlices} from '@reduxjs/toolkit';
 
-export default combineReducers({restaurants});
+export default combineSlices({restaurants});
