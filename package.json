@@ -14,6 +14,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "type-check": "tsc --noEmit",
+    "tsc:watch": "tsc --watch --incremental --noEmit",
     "prepare": "husky",
     "cy:open": "cypress open",
     "cy:run": "cypress run"
