@@ -1,6 +1,5 @@
-import {combineReducers} from '@reduxjs/toolkit';
 import {Restaurant} from './types';
-import {createReducer} from '@reduxjs/toolkit';
+import {combineSlices, createReducer} from '@reduxjs/toolkit';
 import {loadRestaurants} from './actions';
 
 const initialState: Restaurant[] = [];
@@ -18,4 +17,4 @@ const records = createReducer(initialState, builder => {
     });
 });
 
-export default combineReducers({records});
+export default combineSlices({records});
