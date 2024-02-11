@@ -1,10 +1,13 @@
+import {Card, CardContent, Typography} from '@mui/material';
 import RestaurantList from './RestaurantList';
 
 export default function RestaurantScreen() {
   return (
-    <div>
-      <h1>Restaurants</h1>
-      <RestaurantList />
-    </div>
+    <Card sx={{mt: 4}}>
+      <CardContent>
+        <Typography variant="h5">Restaurants</Typography>
+        <RestaurantList />
+      </CardContent>
+    </Card>
   );
 }
