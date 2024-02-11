@@ -7,21 +7,11 @@ interface NewRestaurantFormProps {
   createRestaurant: (restaurantName: string) => void;
 }
 
-type FormDataEntryValue = string | File;
-
 export function NewRestaurantForm({createRestaurant}: NewRestaurantFormProps) {
-  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const {restaurantName} = Object.fromEntries(
-      new FormData(event.currentTarget),
-    );
-    assertIsString(restaurantName);
-
-    createRestaurant(restaurantName);
-  }
-
   return (
-    <form onSubmit={onSubmit}>
+    <form
+      onSubmit={event => onNewRestaurantFormSubmit(event, createRestaurant)}
+    >
       <fieldset>
         <TextField
           placeholder="Add Restaurant"
@@ -37,6 +27,21 @@ export function NewRestaurantForm({createRestaurant}: NewRestaurantFormProps) {
     </form>
   );
 }
+
+function onNewRestaurantFormSubmit(
+  event: React.FormEvent<HTMLFormElement>,
+  callback: (s: string) => void,
+) {
+  event.preventDefault();
+  const {restaurantName} = Object.fromEntries(
+    new FormData(event.currentTarget),
+  );
+  assertIsString(restaurantName);
+
+  callback(restaurantName);
+}
+
+type FormDataEntryValue = string | File;
 
 function assertIsString(
   restaurantName: FormDataEntryValue,
