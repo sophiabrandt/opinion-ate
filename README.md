@@ -2,6 +2,11 @@
 
 An app for tracking reviews of dishes at different restaurants.
 
+_Note_: this project is from the book [Outside-In React Development](https://outsidein.dev/) with some changes made by me:
+
+- it uses Typescript instead of JavaScript
+- I tried to replace some of the deprecated API for Redux with more modern variants from Redux Toolkit, e.g. `createThunkAsync`
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -51,6 +56,10 @@ tbd
 
 - [React](https://reactjs.org)
 - [Vite](https://vitejs.dev)
+
+## License
+
+As the code is mostly from the aforementioned book, I cannot release this code with an open license. ¯\\\_(ツ)\_/¯
 
 ## Contributing
 
