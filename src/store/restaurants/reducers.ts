@@ -1,6 +1,6 @@
 import {Restaurant} from './types';
 import {createReducer} from '@reduxjs/toolkit';
-import {loadRestaurants} from './actions';
+import {loadRestaurants, createRestaurant} from './actions';
 
 export interface RestaurantsState {
   records: Restaurant[];
@@ -27,6 +27,15 @@ const restaurantsReducer = createReducer(initialRestaurantsState, builder => {
     .addCase(loadRestaurants.rejected, (state, _action) => {
       state.showErrorMessage = true;
       state.loading = false;
+    })
+    .addCase(createRestaurant.fulfilled, (state, action) => {
+      state.records.push(action.payload);
+    })
+    .addCase(createRestaurant.pending, (state, _action) => {
+      // no need to do anything here
+    })
+    .addCase(createRestaurant.rejected, (state, _action) => {
+      // noop
     });
 });
 

@@ -45,14 +45,14 @@ export function RestaurantList({
   );
 }
 
-const mapDispatchToProps = {
-  loadRestaurants,
-};
-
 const mapStateToProps = (state: RootState) => ({
   restaurants: state.restaurants.records,
   loading: state.restaurants.loading,
   showErrorMessage: state.restaurants.showErrorMessage,
 });
+
+const mapDispatchToProps = {
+  loadRestaurants,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(RestaurantList);

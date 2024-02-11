@@ -14,3 +14,11 @@ export const loadRestaurants = createAsyncThunk<
 >('restaurants/load', (_, {extra: {api}}) => {
   return api.loadRestaurants();
 });
+
+export const createRestaurant = createAsyncThunk<
+  Restaurant,
+  string,
+  {dispatch: AppDispatch; state: RestaurantsState; extra: {api: Api}}
+>('restaurants/create', (restaurantName: string, {extra: {api}}) => {
+  return api.createRestaurant(restaurantName);
+});
