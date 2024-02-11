@@ -1,34 +1,48 @@
 import {render, screen} from '@testing-library/react';
-import {RestaurantList} from './RestaurantList';
-import {Restaurant} from '../store/restaurants/types';
+import {RestaurantList, RestaurantListProps} from './RestaurantList';
 
 describe('RestaurantList', () => {
   it('loads a list of restaurants on first render', () => {
-    const {loadRestaurants} = setup();
+    const {
+      props: {loadRestaurants},
+    } = setup();
 
     expect(loadRestaurants).toHaveBeenCalled();
   });
 
-  it('displays the restaurants', () => {
-    setup();
+  describe('when loading succeeds', () => {
+    it('displays the restaurants', () => {
+      setup();
 
-    expect(screen.getByText('Sushi Place')).toBeInTheDocument();
+      expect(screen.getByText('Sushi Place')).toBeInTheDocument();
+    });
+
+    it('does not display a loading indicator', () => {
+      setup();
+
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    });
   });
 
-  function setup() {
-    const restaurants: Restaurant[] = [
-      {id: 1, name: 'Sushi Place'},
-      {id: 2, name: 'Pizza Place'},
-    ];
-    const loadRestaurants = vi.fn().mockName('loadRestaurants');
+  it('displays a loading indicator while loading', () => {
+    setup({loading: true});
 
-    render(
-      <RestaurantList
-        loadRestaurants={loadRestaurants}
-        restaurants={restaurants}
-      />,
-    );
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
 
-    return {loadRestaurants};
+  function setup(propOverrides: Partial<RestaurantListProps> = {}) {
+    const props: RestaurantListProps = {
+      loadRestaurants: vi.fn().mockName('loadRestaurants'),
+      restaurants: [
+        {id: 1, name: 'Sushi Place'},
+        {id: 2, name: 'Pizza Place'},
+      ],
+      loading: false,
+      ...propOverrides,
+    };
+
+    render(<RestaurantList {...props} />);
+
+    return {props};
   }
 });
