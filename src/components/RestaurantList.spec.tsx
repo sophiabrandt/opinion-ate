@@ -10,6 +10,14 @@ describe('RestaurantList', () => {
     expect(loadRestaurants).toHaveBeenCalled();
   });
 
+  describe('when loading', () => {
+    it('displays a loading indicator', () => {
+      setup({loading: true});
+
+      expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    });
+  });
+
   describe('when loading succeeds', () => {
     it('displays the restaurants', () => {
       setup();
@@ -22,12 +30,20 @@ describe('RestaurantList', () => {
 
       expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
     });
+
+    it('does not display an error message', () => {
+      setup();
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    });
   });
 
-  it('displays a loading indicator while loading', () => {
-    setup({loading: true});
+  describe('when loading fails', () => {
+    it('shows an error message', () => {
+      setup({restaurants: [], showErrorMessage: true});
 
-    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+      expect(screen.getByRole('alert')).toBeInTheDocument();
+    });
   });
 
   function setup(propOverrides: Partial<RestaurantListProps> = {}) {
@@ -38,6 +54,7 @@ describe('RestaurantList', () => {
         {id: 2, name: 'Pizza Place'},
       ],
       loading: false,
+      showErrorMessage: false,
       ...propOverrides,
     };
 

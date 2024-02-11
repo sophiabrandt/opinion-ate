@@ -1,5 +1,8 @@
 import {configureStore} from '@reduxjs/toolkit';
-import restaurantsReducer, {RestaurantsState} from './restaurants/reducers';
+import restaurantsReducer, {
+  RestaurantsState,
+  initialRestaurantsState,
+} from './restaurants/reducers';
 import {loadRestaurants} from './restaurants/actions';
 
 describe('restaurants', () => {
@@ -8,6 +11,12 @@ describe('restaurants', () => {
       const {store} = setup();
 
       expect(store.getState().loading).toBe(false);
+    });
+
+    it('should not have a showError flag', () => {
+      const {store} = setup();
+
+      expect(store.getState().showErrorMessage).toBe(false);
     });
   });
 
@@ -40,6 +49,18 @@ describe('restaurants', () => {
         // assert
         expect(store.getState().loading).toBe(false);
       });
+
+      it('clears the showError flag', async () => {
+        // arrange
+        const {api, store} = setup({showErrorMessage: true});
+        api.loadRestaurants.mockResolvedValue([]);
+
+        // act
+        await store.dispatch(loadRestaurants() as any);
+
+        // assert
+        expect(store.getState().showErrorMessage).toBe(false);
+      });
     });
 
     describe('while loading', () => {
@@ -54,12 +75,40 @@ describe('restaurants', () => {
         expect(store.getState().loading).toBe(true);
       });
     });
+
+    describe('when loading fails', () => {
+      it('sets the showError flag', async () => {
+        // arrange
+        const {api, store} = setup();
+        api.loadRestaurants.mockRejectedValue('error');
+
+        // act
+        await store.dispatch(loadRestaurants() as any);
+
+        // assert
+        expect(store.getState().showErrorMessage).toBe(true);
+      });
+
+      it('clears the loading flag', async () => {
+        // arrange
+        const {api, store} = setup();
+        api.loadRestaurants.mockRejectedValue('error');
+
+        // act
+        await store.dispatch(loadRestaurants() as any);
+
+        // assert
+        expect(store.getState().loading).toBe(false);
+      });
+    });
   });
 
-  function setup(
-    initialState: RestaurantsState = {records: [], loading: false},
-  ) {
+  function setup(overRides: Partial<RestaurantsState> = {}) {
     const api = {loadRestaurants: vi.fn()};
+    const initialState = {
+      ...initialRestaurantsState,
+      ...overRides,
+    };
 
     const store = configureStore({
       reducer: restaurantsReducer,
