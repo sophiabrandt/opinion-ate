@@ -10,11 +10,14 @@ interface NewRestaurantFormProps {
 export function NewRestaurantForm({createRestaurant}: NewRestaurantFormProps) {
   return (
     <form
+      noValidate
       onSubmit={event => onNewRestaurantFormSubmit(event, createRestaurant)}
     >
       <fieldset>
         <TextField
           placeholder="Add Restaurant"
+          label="Restaurant Name"
+          required
           name="restaurantName"
           defaultValue=""
           fullWidth
@@ -37,6 +40,7 @@ function onNewRestaurantFormSubmit(
     new FormData(event.currentTarget),
   );
   assertIsString(restaurantName);
+  event.currentTarget.reset();
 
   callback(restaurantName);
 }

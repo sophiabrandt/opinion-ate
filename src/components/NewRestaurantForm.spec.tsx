@@ -5,17 +5,27 @@ import {NewRestaurantForm} from './NewRestaurantForm';
 describe('NewRestaurantForm', () => {
   const restaurantName = 'Sushi Place';
 
-  it('calls createRestaurant with the restaurant name', async () => {
-    const {createRestaurant} = await fillInForm();
+  describe('when filled in', () => {
+    it('calls createRestaurant with the restaurant name', async () => {
+      const {createRestaurant} = await fillInForm();
 
-    expect(createRestaurant).toHaveBeenCalledWith(restaurantName);
+      expect(createRestaurant).toHaveBeenCalledWith(restaurantName);
+    });
+
+    it('clears the form', async () => {
+      await fillInForm();
+
+      expect(
+        screen.getByRole('textbox', {name: /restaurant name/i}),
+      ).toHaveValue('');
+    });
   });
 
   async function fillInForm() {
     const {createRestaurant} = setup();
     const user = userEvent.setup();
     await user.type(
-      screen.getByPlaceholderText('Add Restaurant'),
+      screen.getByRole('textbox', {name: /restaurant name/i}),
       restaurantName,
     );
     await user.click(screen.getByRole('button', {name: /add/i}));
