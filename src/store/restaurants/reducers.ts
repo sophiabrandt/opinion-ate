@@ -31,10 +31,10 @@ const restaurantsReducer = createReducer(initialRestaurantsState, builder => {
     .addCase(createRestaurant.fulfilled, (state, action) => {
       state.records.push(action.payload);
     })
-    .addCase(createRestaurant.pending, (state, _action) => {
-      // no need to do anything here
+    .addCase(createRestaurant.pending, (_state, _action) => {
+      // noop
     })
-    .addCase(createRestaurant.rejected, (state, _action) => {
+    .addCase(createRestaurant.rejected, (_state, _action) => {
       // noop
     });
 });

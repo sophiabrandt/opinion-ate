@@ -5,12 +5,19 @@ import {NewRestaurantForm} from './NewRestaurantForm';
 describe('NewRestaurantForm', () => {
   const restaurantName = 'Sushi Place';
   const requiredError = /restaurant name is required/i;
+  const serverError = /The restaurant could not be saved. Please try again./i;
 
   describe('initially', () => {
     it('does not display a validation error', () => {
       setup();
 
       expect(screen.queryByText(requiredError)).not.toBeInTheDocument();
+    });
+
+    it('does not display a server error', () => {
+      setup();
+
+      expect(screen.queryByText(serverError)).not.toBeInTheDocument();
     });
   });
 
@@ -33,6 +40,12 @@ describe('NewRestaurantForm', () => {
       await fillInForm();
 
       expect(screen.queryByText(requiredError)).not.toBeInTheDocument();
+    });
+
+    it('does not display a server error', async () => {
+      await fillInForm();
+
+      expect(screen.queryByText(serverError)).not.toBeInTheDocument();
     });
   });
 
@@ -58,6 +71,14 @@ describe('NewRestaurantForm', () => {
     });
   });
 
+  describe('when the store action rejects', () => {
+    it('displays a server error', async () => {
+      await fillInFormWithServerError();
+
+      expect(screen.getByText(serverError)).toBeInTheDocument();
+    });
+  });
+
   async function fixValidationError() {
     const {createRestaurant, user} = setup();
     createRestaurant.mockResolvedValueOnce('');
@@ -70,12 +91,24 @@ describe('NewRestaurantForm', () => {
     await user.click(screen.getByRole('button', {name: /add/i}));
     return {createRestaurant, user};
   }
+
   async function submitEmptyForm() {
     const {createRestaurant, user} = setup();
 
     await user.click(screen.getByRole('button', {name: /add/i}));
 
     return {createRestaurant};
+  }
+
+  async function fillInFormWithServerError() {
+    const {createRestaurant, user} = setup();
+    createRestaurant.mockRejectedValueOnce('rejected');
+    await user.type(
+      screen.getByRole('textbox', {name: /restaurant name/i}),
+      restaurantName,
+    );
+    await user.click(screen.getByRole('button', {name: /add/i}));
+    return {createRestaurant, user};
   }
 
   async function fillInForm() {
