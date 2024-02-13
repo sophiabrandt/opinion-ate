@@ -1,7 +1,8 @@
-import React from 'react';
 import {Alert, Button, TextField} from '@mui/material';
 import {ConnectedProps, connect} from 'react-redux';
 import {createRestaurant} from '../store/restaurants/actions';
+import {useNewRestaurantForm} from '../hooks/useNewRestaurantForm';
+import React from 'react';
 
 const mapDispatchToProps = {createRestaurant};
 const connector = connect(null, mapDispatchToProps);
@@ -9,46 +10,17 @@ const connector = connect(null, mapDispatchToProps);
 export function NewRestaurantForm({
   createRestaurant,
 }: ConnectedProps<typeof connector>) {
-  const [validationError, setValidationError] = React.useState(false);
-  const [serverError, setServerError] = React.useState(false);
+  const [validationError, setValidationError] = React.useState<boolean>(false);
+  const [serverError, setServerError] = React.useState<boolean>(false);
 
-  function extractFormData(
-    event: React.FormEvent<HTMLFormElement>,
-  ): string | null {
-    const formData = new FormData(event.currentTarget);
-    const restaurantName = formData.get('restaurantName');
-    if (
-      !restaurantName ||
-      typeof restaurantName !== 'string' ||
-      !restaurantName.trim()
-    ) {
-      setValidationError(true);
-      return null;
-    }
-    return restaurantName.trim();
-  }
-
-  async function onNewRestaurantFormSubmit(
-    event: React.FormEvent<HTMLFormElement>,
-  ) {
-    event.preventDefault();
-    setValidationError(false);
-    const restaurantName = extractFormData(event);
-
-    if (restaurantName) {
-      try {
-        event.currentTarget.reset();
-        await createRestaurant(restaurantName);
-      } catch (e) {
-        setServerError(true);
-      }
-    } else {
-      setValidationError(true);
-    }
-  }
+  const {handleFormSubmit} = useNewRestaurantForm({
+    handler: createRestaurant,
+    setValidationError,
+    setServerError,
+  });
 
   return (
-    <form noValidate onSubmit={onNewRestaurantFormSubmit}>
+    <form noValidate onSubmit={handleFormSubmit}>
       {serverError ? (
         <Alert severity="error">
           The restaurant could not be saved. Please try again.

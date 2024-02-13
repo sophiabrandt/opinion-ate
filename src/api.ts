@@ -11,7 +11,7 @@ const api: Api = {
     return response.data;
   },
   createRestaurant: async (name: string) => {
-    const response = await client.post('/restaurants', {name});
+    const response = await client.post('/staurants', {name});
     return response.data;
   },
 };
