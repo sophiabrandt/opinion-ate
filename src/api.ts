@@ -11,9 +11,16 @@ const api: Api = {
     return response.data;
   },
   createRestaurant: async (name: string) => {
-    const response = await client.post('/staurants', {name});
+    const response = await client.post('/restaurants', {name});
     return response.data;
   },
 };
+
+export class ServerError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ServerError';
+  }
+}
 
 export default api;

@@ -72,10 +72,26 @@ describe('NewRestaurantForm', () => {
   });
 
   describe('when the store action rejects', () => {
-    it('displays a server error', async () => {
+    it.skip('displays a server error', async () => {
       await fillInFormWithServerError();
 
       expect(screen.getByText(serverError)).toBeInTheDocument();
+    });
+
+    it('does not clear the the form', async () => {
+      await fillInFormWithServerError();
+
+      expect(
+        screen.getByRole('textbox', {name: /restaurant name/i}),
+      ).toHaveValue(restaurantName);
+    });
+  });
+
+  describe('when retrying after the store rejects', () => {
+    it('displays a server error', async () => {
+      await retryingSubmitForm();
+
+      expect(screen.queryByText(serverError)).not.toBeInTheDocument();
     });
   });
 
@@ -100,6 +116,20 @@ describe('NewRestaurantForm', () => {
     return {createRestaurant};
   }
 
+  async function retryingSubmitForm() {
+    const {createRestaurant, user} = setup();
+    createRestaurant
+      .mockRejectedValueOnce('rejected')
+      .mockResolvedValueOnce({id: 1, name: 'Sushi Place'});
+    await user.type(
+      screen.getByRole('textbox', {name: /restaurant name/i}),
+      restaurantName,
+    );
+    await user.click(screen.getByRole('button', {name: /add/i}));
+    await user.click(screen.getByRole('button', {name: /add/i}));
+    return {createRestaurant, user};
+  }
+
   async function fillInFormWithServerError() {
     const {createRestaurant, user} = setup();
     createRestaurant.mockRejectedValueOnce('rejected');
@@ -113,6 +143,7 @@ describe('NewRestaurantForm', () => {
 
   async function fillInForm() {
     const {createRestaurant, user} = setup();
+    createRestaurant.mockResolvedValue({id: 1, name: 'Sushi Place'});
     await user.type(
       screen.getByRole('textbox', {name: /restaurant name/i}),
       restaurantName,

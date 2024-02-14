@@ -1,8 +1,8 @@
+import React from 'react';
 import {Alert, Button, TextField} from '@mui/material';
 import {ConnectedProps, connect} from 'react-redux';
 import {createRestaurant} from '../store/restaurants/actions';
 import {useNewRestaurantForm} from '../hooks/useNewRestaurantForm';
-import React from 'react';
 
 const mapDispatchToProps = {createRestaurant};
 const connector = connect(null, mapDispatchToProps);

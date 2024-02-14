@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react';
+import {ServerError} from '../api';
 
 type UseNewRestaurantFormHook = {
   handleFormSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -20,12 +21,13 @@ export function useNewRestaurantForm({
       setValidationError(false);
       try {
         const restaurantName = getFormData(event, 'restaurantName');
+        await handler(restaurantName);
         resetForm(event);
-        await submitRestaurant(restaurantName, handler);
       } catch (error) {
-        setValidationError(true);
         if (error instanceof ServerError) {
           setServerError(true);
+        } else {
+          setValidationError(true);
         }
       }
     },
@@ -52,23 +54,5 @@ function assertIsNonEmptyString(value: unknown): asserts value is string {
 }
 
 function resetForm(event: React.FormEvent<HTMLFormElement>): void {
-  event.currentTarget.reset();
-}
-
-async function submitRestaurant(
-  restaurantName: string,
-  handler: (s: string) => Promise<unknown>,
-): Promise<void> {
-  try {
-    await handler(restaurantName.trim());
-  } catch (error) {
-    throw new ServerError('Failed to submit restaurant name');
-  }
-}
-
-class ServerError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'ServerError';
-  }
+  (event.target as HTMLFormElement).reset();
 }
