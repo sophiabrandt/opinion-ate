@@ -30,10 +30,10 @@ export function RestaurantList({
 
   return (
     <>
-      {loading && <CircularProgress />}
-      {showErrorMessage && (
+      {loading ? <CircularProgress /> : null}
+      {showErrorMessage ? (
         <Alert severity="error">Restaurants could not be loaded</Alert>
-      )}
+      ) : null}
       <List>
         {restaurants.map(restaurant => (
           <ListItem key={restaurant.id}>
@@ -45,14 +45,14 @@ export function RestaurantList({
   );
 }
 
-const mapDispatchToProps = {
-  loadRestaurants,
-};
-
 const mapStateToProps = (state: RootState) => ({
   restaurants: state.restaurants.records,
   loading: state.restaurants.loading,
   showErrorMessage: state.restaurants.showErrorMessage,
 });
+
+const mapDispatchToProps = {
+  loadRestaurants,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(RestaurantList);

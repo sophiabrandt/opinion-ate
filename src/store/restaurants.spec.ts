@@ -3,7 +3,7 @@ import restaurantsReducer, {
   RestaurantsState,
   initialRestaurantsState,
 } from './restaurants/reducers';
-import {loadRestaurants} from './restaurants/actions';
+import {createRestaurant, loadRestaurants} from './restaurants/actions';
 
 describe('restaurants', () => {
   describe('initially', () => {
@@ -102,12 +102,45 @@ describe('restaurants', () => {
       });
     });
   });
+  describe('createRestaurant action', () => {
+    it('saves the restaurant to the server', () => {
+      // arrange
+      const restaurantName = 'Sushi Place';
+      const {api, store} = setup();
 
-  function setup(overRides: Partial<RestaurantsState> = {}) {
-    const api = {loadRestaurants: vi.fn()};
+      // act
+      store.dispatch(createRestaurant(restaurantName) as any);
+
+      // assert
+      expect(api.createRestaurant).toHaveBeenCalledWith(restaurantName);
+    });
+
+    it('stores the returned restaurant in the store', async () => {
+      // arrange
+      const existingRestaurant = {id: 1, name: 'Pizza Place'};
+      const newRestaurant = {id: 2, name: 'Sushi Place'};
+      const {api, store} = setup({records: [existingRestaurant]});
+      api.createRestaurant.mockResolvedValue(newRestaurant);
+
+      // act
+      await store.dispatch(createRestaurant(newRestaurant.name) as any);
+
+      // assert
+      expect(store.getState().records).toEqual([
+        existingRestaurant,
+        newRestaurant,
+      ]);
+    });
+  });
+
+  function setup(overrides: Partial<RestaurantsState> = {}) {
+    const api = {
+      loadRestaurants: vi.fn().mockName('loadRestaurants'),
+      createRestaurant: vi.fn().mockName('createRestaurant'),
+    };
     const initialState = {
       ...initialRestaurantsState,
-      ...overRides,
+      ...overrides,
     };
 
     const store = configureStore({

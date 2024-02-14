@@ -5,7 +5,7 @@ An app for tracking reviews of dishes at different restaurants.
 _Note_: this project is from the book [Outside-In React Development](https://outsidein.dev/) with some changes made by me:
 
 - it uses Typescript instead of JavaScript
-- I tried to replace some of the deprecated API for Redux with more modern variants from Redux Toolkit, e.g. `createThunkAsync`
+- I tried to replace some of the deprecated API for Redux with more modern variants from Redux Toolkit, e.g. [`createAsyncThunk`](https://redux-toolkit.js.org/usage/usage-with-typescript#createasyncthunk)
 
 ## Getting Started
 

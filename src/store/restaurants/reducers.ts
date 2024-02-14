@@ -1,6 +1,7 @@
 import {Restaurant} from './types';
 import {createReducer} from '@reduxjs/toolkit';
-import {loadRestaurants} from './actions';
+import {loadRestaurants, createRestaurant} from './actions';
+import {ServerError} from '../../api';
 
 export interface RestaurantsState {
   records: Restaurant[];
@@ -27,6 +28,15 @@ const restaurantsReducer = createReducer(initialRestaurantsState, builder => {
     .addCase(loadRestaurants.rejected, (state, _action) => {
       state.showErrorMessage = true;
       state.loading = false;
+    })
+    .addCase(createRestaurant.fulfilled, (state, action) => {
+      state.records.push(action.payload);
+    })
+    .addCase(createRestaurant.pending, (_state, _action) => {
+      // noop
+    })
+    .addCase(createRestaurant.rejected, (_state, _action) => {
+      throw new ServerError('Failed to create restaurant. Please try again.');
     });
 });
 
