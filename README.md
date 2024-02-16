@@ -6,6 +6,7 @@ _Note_: this project is from the book [Outside-In React Development](https://out
 
 - it uses Typescript instead of JavaScript
 - I tried to replace some of the deprecated API for Redux with more modern variants from Redux Toolkit, e.g. [`createAsyncThunk`](https://redux-toolkit.js.org/usage/usage-with-typescript#createasyncthunk)
+- form handling via custom hook and uncontrolled form input
 
 ## Getting Started
 
@@ -24,6 +25,14 @@ Install dependencies:
 bun install
 ```
 
+You will need an API key for the backend server. Check [https://api.outsidein.dev/](https://api.outsidein.dev/) for further information.
+
+Create a new file called `.env.local` and add the key:
+
+```
+VITE_API_KEY=
+```
+
 ## Running the tests
 
 ### Unit Tests
@@ -40,12 +49,18 @@ Or use watch mode:
 bun test:watch
 ```
 
-### Break down into end to end tests
+### E2E Tests
 
 This project uses [Cypress](https://www.cypress.io/) for end-to-end-testing.
 
 ```sh
 bun cy:run
+```
+
+or
+
+```sh
+bun cy:open
 ```
 
 ## Deployment
