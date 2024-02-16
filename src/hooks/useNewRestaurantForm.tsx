@@ -49,7 +49,7 @@ function getFormData(
 
 function assertIsNonEmptyString(value: unknown): asserts value is string {
   if (typeof value !== 'string' || value.trim().length === 0) {
-    throw new Error('value is not a non-empty string');
+    throw new Error('value is either empty or not a valid string');
   }
 }
 

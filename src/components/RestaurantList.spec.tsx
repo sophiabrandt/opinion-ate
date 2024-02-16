@@ -1,5 +1,6 @@
 import {render, screen} from '@testing-library/react';
-import {RestaurantList, RestaurantListProps} from './RestaurantList';
+import {RestaurantList, connector} from './RestaurantList';
+import {ConnectedProps} from 'react-redux';
 
 describe('RestaurantList', () => {
   it('loads a list of restaurants on first render', () => {
@@ -46,8 +47,8 @@ describe('RestaurantList', () => {
     });
   });
 
-  function setup(propOverrides: Partial<RestaurantListProps> = {}) {
-    const props: RestaurantListProps = {
+  function setup(propOverrides: Partial<unknown> = {}) {
+    const props = {
       loadRestaurants: vi.fn().mockName('loadRestaurants'),
       restaurants: [
         {id: 1, name: 'Sushi Place'},
@@ -56,7 +57,7 @@ describe('RestaurantList', () => {
       loading: false,
       showErrorMessage: false,
       ...propOverrides,
-    };
+    } as unknown as ConnectedProps<typeof connector>;
 
     render(<RestaurantList {...props} />);
 
